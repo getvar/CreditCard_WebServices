@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35707.178 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.CreditCard.Api", "Tuya.CreditCard.Api\Tuya.CreditCard.Api.csproj", "{6ACE5E9B-7E9F-4EE8-AEDB-40D4FB9D61BB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. WebApi", "1. WebApi", "{7EF7890E-5B17-4496-A33C-FEF073D2786F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application", "2. Application", "{D37E6FFF-5D70-41C6-8B3E-914D541BDA56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. DTO", "3. DTO", "{CDB723D9-8CB2-4F79-BF39-F3D077D78C19}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{DD027A88-0ADF-4B92-8F1C-29087A2C738F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Shared", "5. Shared", "{E1F48570-66C7-4980-95E2-48B4CC644A70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.CreditCard.Api.App.Contracts", "Tuya.CreditCard.Api.App.Contracts\Tuya.CreditCard.Api.App.Contracts.csproj", "{FE19FC47-B44D-4338-8D7E-2C2B1A908671}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.CreditCard.Api.App", "Tuya.CreditCard.Api.App\Tuya.CreditCard.Api.App.csproj", "{7F818479-E8A6-470B-9C0C-0D49D231D8ED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.CreditCard.Api.DTO", "Tuya.CreditCard.Api.DTO\Tuya.CreditCard.Api.DTO.csproj", "{B9E48CB2-F45E-42B9-A9D6-3E53465CC390}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.CreditCard.Api.DAL.Contracts", "Tuya.CreditCard.Api.DAL.Contracts\Tuya.CreditCard.Api.DAL.Contracts.csproj", "{EFB51D00-9F7A-472E-951E-261346A0EC19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.CreditCard.Api.DAL", "Tuya.CreditCard.Api.DAL\Tuya.CreditCard.Api.DAL.csproj", "{639435C4-9199-4908-91C4-A5648AED9F56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.CreditCard.Api.Common", "Tuya.CreditCard.Api.Common\Tuya.CreditCard.Api.Common.csproj", "{471E3A01-1773-4875-B958-BDB122F18ABE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tuya.CreditCard.Api.CrossCutting", "Tuya.CreditCard.Api.CrossCutting\Tuya.CreditCard.Api.CrossCutting.csproj", "{0AA41BCB-BA33-477F-A23F-7A3789A8B797}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6ACE5E9B-7E9F-4EE8-AEDB-40D4FB9D61BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ACE5E9B-7E9F-4EE8-AEDB-40D4FB9D61BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ACE5E9B-7E9F-4EE8-AEDB-40D4FB9D61BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ACE5E9B-7E9F-4EE8-AEDB-40D4FB9D61BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE19FC47-B44D-4338-8D7E-2C2B1A908671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE19FC47-B44D-4338-8D7E-2C2B1A908671}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE19FC47-B44D-4338-8D7E-2C2B1A908671}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE19FC47-B44D-4338-8D7E-2C2B1A908671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F818479-E8A6-470B-9C0C-0D49D231D8ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F818479-E8A6-470B-9C0C-0D49D231D8ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F818479-E8A6-470B-9C0C-0D49D231D8ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F818479-E8A6-470B-9C0C-0D49D231D8ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9E48CB2-F45E-42B9-A9D6-3E53465CC390}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9E48CB2-F45E-42B9-A9D6-3E53465CC390}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9E48CB2-F45E-42B9-A9D6-3E53465CC390}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9E48CB2-F45E-42B9-A9D6-3E53465CC390}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFB51D00-9F7A-472E-951E-261346A0EC19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB51D00-9F7A-472E-951E-261346A0EC19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB51D00-9F7A-472E-951E-261346A0EC19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB51D00-9F7A-472E-951E-261346A0EC19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{639435C4-9199-4908-91C4-A5648AED9F56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{639435C4-9199-4908-91C4-A5648AED9F56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{639435C4-9199-4908-91C4-A5648AED9F56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{639435C4-9199-4908-91C4-A5648AED9F56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{471E3A01-1773-4875-B958-BDB122F18ABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{471E3A01-1773-4875-B958-BDB122F18ABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{471E3A01-1773-4875-B958-BDB122F18ABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{471E3A01-1773-4875-B958-BDB122F18ABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AA41BCB-BA33-477F-A23F-7A3789A8B797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA41BCB-BA33-477F-A23F-7A3789A8B797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA41BCB-BA33-477F-A23F-7A3789A8B797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA41BCB-BA33-477F-A23F-7A3789A8B797}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6ACE5E9B-7E9F-4EE8-AEDB-40D4FB9D61BB} = {7EF7890E-5B17-4496-A33C-FEF073D2786F}
+		{FE19FC47-B44D-4338-8D7E-2C2B1A908671} = {D37E6FFF-5D70-41C6-8B3E-914D541BDA56}
+		{7F818479-E8A6-470B-9C0C-0D49D231D8ED} = {D37E6FFF-5D70-41C6-8B3E-914D541BDA56}
+		{B9E48CB2-F45E-42B9-A9D6-3E53465CC390} = {CDB723D9-8CB2-4F79-BF39-F3D077D78C19}
+		{EFB51D00-9F7A-472E-951E-261346A0EC19} = {DD027A88-0ADF-4B92-8F1C-29087A2C738F}
+		{639435C4-9199-4908-91C4-A5648AED9F56} = {DD027A88-0ADF-4B92-8F1C-29087A2C738F}
+		{471E3A01-1773-4875-B958-BDB122F18ABE} = {E1F48570-66C7-4980-95E2-48B4CC644A70}
+		{0AA41BCB-BA33-477F-A23F-7A3789A8B797} = {E1F48570-66C7-4980-95E2-48B4CC644A70}
+	EndGlobalSection
+EndGlobal
