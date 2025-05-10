@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Tuya.CreditCard.Api.DAL.Contracts.Repositories;
+using Tuya.CreditCard.Api.DAL.Repositories;
 
 namespace Tuya.CreditCard.Api.CrossCutting.IoC
 {
@@ -11,7 +8,11 @@ namespace Tuya.CreditCard.Api.CrossCutting.IoC
     {
         public static IServiceCollection AddRepositoryDependencies(this IServiceCollection services)
         {
-            //services.AddTransient<IMaterialListRepository, MaterialListRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ICardRepository, CardRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<ISaleRepository, SaleRepository>();
+            services.AddTransient<ITransactionRepository, TransactionRepository>();
             return services;
         }
     }

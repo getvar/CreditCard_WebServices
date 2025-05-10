@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Tuya.CreditCard.Api.DAL;
+using Tuya.CreditCard.Api.DAL.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Tuya.CreditCard.Api.CrossCutting.IoC
 {
@@ -12,14 +10,12 @@ namespace Tuya.CreditCard.Api.CrossCutting.IoC
     {
         public static void AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            //services.AddScoped<IItemContext, ItemContext>();
-            //services.AddDbContext<ItemContext>((provider, options) =>
-            //{
-            //    var encryptionService = encryptionServiceFactory(provider);
-            //    var encryptedConnectionString = configuration.GetConnectionString("ApiConnection");
-            //    var decryptedConnectionString = encryptionService.DecryptData(encryptedConnectionString!);
-            //    options.UseSqlServer(decryptedConnectionString);
-            //});
+            services.AddScoped<ICreditCardContext, CreditCardContext>();
+            services.AddDbContext<CreditCardContext>((provider, options) =>
+            {
+                var connectionString = configuration.GetConnectionString("ApiConnection");
+                options.UseSqlServer(connectionString);
+            });
 
             services.AddServiceDependencies();
             services.AddRepositoryDependencies();

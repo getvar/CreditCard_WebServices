@@ -8,6 +8,7 @@ This API serves as the backend for a web application.
 -	**IDE**: Visual Studio 2022
 -	**FRAMEWORK**: .NET
 -	**VERSION**: 8
+-	**DATABASE**: Microsoft SQL Server 2016 (SP2) (KB4052908) - 13.0.5026.0 (X64)
 
 **Languages:** C#
 

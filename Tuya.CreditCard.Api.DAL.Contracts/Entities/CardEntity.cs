@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static Tuya.CreditCard.Api.DTO.Models.Enums;
 
@@ -9,8 +8,13 @@ namespace Tuya.CreditCard.Api.DAL.Contracts.Entities
     {
         public Guid Id { get; set; }
 
-        [StringLength(100)]
+        public Guid UserId { get; set; }
+
+        [StringLength(50)]
         public string Alias { get; set; } = string.Empty;
+
+        [StringLength(200)]
+        public string Bank { get; set; } = string.Empty;
 
         [StringLength(4)]
         public string Last4Digits { get; set; } = string.Empty;
@@ -24,8 +28,6 @@ namespace Tuya.CreditCard.Api.DAL.Contracts.Entities
         [StringLength(100)]
         public string Token { get; set; } = string.Empty;
 
-        public bool Default { get; set; }
-
         public CardState State { get; set; } = CardState.Active;
 
         [Column(TypeName = "datetime")]
@@ -34,7 +36,7 @@ namespace Tuya.CreditCard.Api.DAL.Contracts.Entities
         [Column(TypeName = "datetime")]
         public DateTime? UpdateDate { get; set; }
 
-        public virtual CardEntity Card { get; set; } = new CardEntity();
+        public virtual UserEntity User { get; set; } = null!;
 
         public virtual ICollection<TransactionEntity> Transactions { get; set; } = null!;
     }

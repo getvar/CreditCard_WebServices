@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
-using Microsoft.VisualBasic;
 using System.Text.Json;
 using Tuya.CreditCard.Api.Common.Constants;
 using Tuya.CreditCard.Api.CrossCutting.Configuration;
@@ -30,30 +29,30 @@ builder.Services.AddSwaggerGen(c =>
     List<string> xmlFiles = Directory.GetFiles(PlatformServices.Default.Application.ApplicationBasePath, "*.xml", SearchOption.TopDirectoryOnly).ToList();
     xmlFiles.ForEach(xmlFile => c.IncludeXmlComments(xmlFile));
 
-    //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    //{
-    //    In = ParameterLocation.Header,
-    //    Description = "Introduce un token válido",
-    //    Name = "Authorization",
-    //    Type = SecuritySchemeType.Http,
-    //    BearerFormat = "JWT",
-    //    Scheme = "Bearer"
-    //});
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Introduce un token válido",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
 
-    //c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    //{
-    //    {
-    //        new OpenApiSecurityScheme
-    //        {
-    //            Reference = new OpenApiReference
-    //            {
-    //                Type=ReferenceType.SecurityScheme,
-    //                Id="Bearer"
-    //            }
-    //        },
-    //        Array.Empty<string>()
-    //    }
-    //});
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 
 var app = builder.Build();
@@ -83,7 +82,14 @@ app.UseExceptionHandler(errorApp =>
         context.Response.ContentType = "application/json";
         var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
 
-        context.Response.StatusCode = exception is ArgumentException ? 400 : 500;
+        int statusCode = exception switch
+        {
+            ArgumentException => 400,
+            KeyNotFoundException => 404,
+            _ => 500
+        };
+
+        context.Response.StatusCode = statusCode;
 
         await context.Response.WriteAsync(JsonSerializer.Serialize(new
         {

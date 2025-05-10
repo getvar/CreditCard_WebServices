@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tuya.CreditCard.Api.DTO\Tuya.CreditCard.Api.DTO.csproj" />
+  </ItemGroup>
+
 </Project>
