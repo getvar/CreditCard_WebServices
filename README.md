@@ -5,9 +5,9 @@ This API serves as the backend for a web application.
 
 **Technology**
 
-**IDE**: Visual Studio 2022
-**FRAMEWORK**: .NET
-**VERSION**: 8
+-	**IDE**: Visual Studio 2022
+-	**FRAMEWORK**: .NET
+-	**VERSION**: 8
 
 **Languages:** C#
 
