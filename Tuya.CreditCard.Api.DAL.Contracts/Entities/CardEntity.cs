@@ -36,6 +36,15 @@ namespace Tuya.CreditCard.Api.DAL.Contracts.Entities
         [Column(TypeName = "datetime")]
         public DateTime? UpdateDate { get; set; }
 
+        [StringLength(300)]
+        public string OwnerName { get; set; } = string.Empty;
+
+        [StringLength(300)]
+        public string OwnerEmail { get; set; } = string.Empty;
+
+        [StringLength(50)]
+        public string OwnerPhone { get; set; } = string.Empty;
+
         public virtual UserEntity User { get; set; } = null!;
 
         public virtual ICollection<TransactionEntity> Transactions { get; set; } = null!;

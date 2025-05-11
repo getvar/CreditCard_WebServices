@@ -11,7 +11,7 @@ namespace Tuya.CreditCard.Api.DAL.Mappers
         {
             var entity = mapper.Map<UserEntity>(user);
             entity.Id = Guid.NewGuid();
-            entity.RegistrationDate = DateTime.UtcNow;
+            entity.RegistrationDate = entity.UpdateDate = DateTime.UtcNow;
             entity.Password = PasswordHelper.GetPasswordHash(user.Password);
             return entity;
         }

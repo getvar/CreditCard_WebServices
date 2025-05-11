@@ -1,0 +1,26 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Tuya.CreditCard.Api.App.Contracts.Services;
+using Tuya.CreditCard.Api.Common.Helpers;
+
+namespace Tuya.CreditCard.Api.Controllers
+{
+    [Authorize]
+    [Route("api/Product")]
+    [ApiController]
+    public class ProductController : ControllerBase
+    {
+        private readonly IProductService _productService;
+
+        public ProductController(IProductService productService)
+        {
+            _productService = productService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProducts()
+        {
+            return Ok(await ApiExecutionHelper.RunAsync(_productService.GetAll()));
+        }
+    }
+}

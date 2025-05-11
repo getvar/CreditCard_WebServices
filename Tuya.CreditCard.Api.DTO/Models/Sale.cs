@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Tuya.CreditCard.Api.DTO.Models
+﻿namespace Tuya.CreditCard.Api.DTO.Models
 {
     public class Sale
     {
@@ -37,7 +35,7 @@ namespace Tuya.CreditCard.Api.DTO.Models
     public class SaleAdd
     {
         public Guid CardId { get; set; }
-        public decimal TotalValue { get; set; }
+        public List<SaleDetailAdd> SaleDetails { get; set; } = null!;
     }
 
     public class SaleDetailAdd
@@ -45,7 +43,5 @@ namespace Tuya.CreditCard.Api.DTO.Models
         public Guid ProductId { get; set; }
 
         public int Quantity { get; set; }
-
-        public decimal UnitValue { get; set; }
     }
 }

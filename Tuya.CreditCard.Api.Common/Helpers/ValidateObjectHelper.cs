@@ -10,5 +10,14 @@
             if (generateException) ExceptionHelper.GenerateException(errorMessage, exception);
             return false;
         }
+
+        public static bool ValidateObjectList(List<T>? list, bool generateException, string errorMessage, Exception? exception = null)
+        {
+            if (list?.Count > 0)
+                return true;
+
+            if (generateException) ExceptionHelper.GenerateException(errorMessage, exception);
+            return false;
+        }
     }
 }

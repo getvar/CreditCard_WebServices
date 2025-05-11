@@ -22,9 +22,9 @@ namespace Tuya.CreditCard.Api.DAL.Repositories
             return await _creditCardContext.SaveChangesAsync() > 0 ? entity : null;
         }
 
-        public async Task<CardEntity?> DeleteAsync(CardEntity entity)
+        public async Task<CardEntity?> DeleteAsync(Guid id)
         {
-            var element = await GetByIdAsync(entity.Id);
+            var element = await GetByIdAsync(id);
 
             if (element != null)
             {
@@ -37,10 +37,28 @@ namespace Tuya.CreditCard.Api.DAL.Repositories
             return null;
         }
 
-        public async Task<CardEntity?> GetByIdAsync(Guid id) => await _creditCardContext.Cards.FindAsync(id);
-
-        public async Task<List<CardEntity>> GetAllAsync(Guid id) => await _creditCardContext.Cards.Where(x => x.State.Equals(CardState.Active)).ToListAsync();
+        public async Task<CardEntity?> GetByIdAsync(Guid id) => await _creditCardContext.Cards.FirstOrDefaultAsync(x => x.Id.Equals(id) && x.State.Equals(CardState.Active));
 
         public async Task<List<CardEntity>> GetAllByUserIdAsync(Guid userId) => await _creditCardContext.Cards.Where(x => x.UserId.Equals(userId) && x.State.Equals(CardState.Active)).ToListAsync();
+
+        public async Task<CardEntity?> GetCardByUserIdAndCardId(Guid userId, Guid cardId) => await _creditCardContext.Cards.FirstOrDefaultAsync(x => x.UserId.Equals(userId) && x.Id.Equals(cardId) && x.State.Equals(CardState.Active));
+
+        public async Task<CardEntity?> EditAsync(CardEntity entity)
+        {
+            var element = await GetByIdAsync(entity.Id);
+
+            if (element != null)
+            {
+                element.UpdateDate = entity.UpdateDate;
+                element.Alias = entity.Alias;
+                element.OwnerEmail = entity.OwnerEmail;
+                element.OwnerName = entity.OwnerName;
+                element.OwnerPhone = entity.OwnerPhone;
+                _creditCardContext.Cards.Update(element);
+                return await _creditCardContext.SaveChangesAsync() > 0 ? element : null;
+            }
+
+            return null;
+        }
     }
 }

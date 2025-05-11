@@ -20,5 +20,10 @@
         {
             Message = error?.Message;
         }
+
+        public void SetMessage()
+        {
+            Message = "Acción exitosa";
+        }
     }
 }

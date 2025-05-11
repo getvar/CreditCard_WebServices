@@ -4,6 +4,16 @@ namespace Tuya.CreditCard.Api.DTO.Models
 {
     public class Enums
     {
+        public enum IdentificationType
+        {
+            [Display(Name = "Cédula")]
+            CC,
+            [Display(Name = "Cédula extranjería")]
+            CE,
+            [Display(Name = "Tarjeta de Identidad")]
+            TI
+        }
+
         public enum CardState
         {
             [Display(Name = "Activa")]

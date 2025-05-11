@@ -2,7 +2,8 @@
 
 namespace Tuya.CreditCard.Api.DAL.Contracts.Repositories
 {
-    public interface ICardRepository : IAdd<CardEntity>, IDelete<CardEntity>, IGetById<CardEntity>, IGetAllByUserId<CardEntity>
+    public interface ICardRepository : IAdd<CardEntity>, IEdit<CardEntity>, IDelete<CardEntity>, IGetById<CardEntity>, IGetAllByUserId<CardEntity>
     {
+        Task<CardEntity?> GetCardByUserIdAndCardId(Guid userId, Guid cardId);
     }
 }

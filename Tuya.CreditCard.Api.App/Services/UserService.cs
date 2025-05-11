@@ -25,32 +25,40 @@ namespace Tuya.CreditCard.Api.App.Services
 
         public async Task<bool> AddUser(UserManage user)
         {
-
             string baseErrorMessage = "No fue posible crear el usuario.";
             await ValidateAddUserData(user, baseErrorMessage);
             var entity = UserMapper.MapAdd(user, _mapper);
             var createdUser = await _userRepository.AddAsync(entity);
             ValidateObjectHelper<UserEntity>.ValidateObject(createdUser, true, $"{baseErrorMessage} Por favor, Intente más tarde", new NotInsertedException(string.Empty));
-            return await _userRepository.AddAsync(entity) != null;
+            return true;
         }
 
-        public async Task<User> GetUser() => _mapper.Map<User>(await _userRepository.GetByIdAsync(_apiAccessorUserData.GetUserId()));
+        public async Task<User> GetUser()
+        {
+            var user = await _userRepository.GetByIdAsync(_apiAccessorUserData.GetUserId());
+            ValidateObjectHelper<UserEntity>.ValidateObject(user, true, $"No se encontró información", new KeyNotFoundException(string.Empty));
+            return _mapper.Map<User>(user);
+        }
+
+        public async Task<UserData> GetUserByUserName(string userName) => _mapper.Map<UserData>(await _userRepository.GetByUserName(userName));
 
         public async Task<bool> UpdateUser(UserManage user)
         {
             string baseErrorMessage = "No fue posible actualizar el usuario.";
             await ValidateUpdateUserData(user, baseErrorMessage);
             var entity = UserMapper.MapUpdate(user, _mapper);
-            var updatedUser = await _userRepository.AddAsync(entity);
+            var updatedUser = await _userRepository.EditAsync(entity);
             ValidateObjectHelper<UserEntity>.ValidateObject(updatedUser, true, $"{baseErrorMessage} Por favor, Intente más tarde", new NotInsertedException(string.Empty));
-            return await _userRepository.AddAsync(entity) != null;
+            return true;
         }
 
         private async Task ValidateAddUserData(UserManage user, string baseErrorMessage)
         {
             ValidateGenericUserData(user, baseErrorMessage);
             ValidationHelper.ValidateEmptyString(user.Password, true, $"{baseErrorMessage} La CONTRASEÑA es obligatoria");
-            ValidateObjectHelper<UserEntity>.ValidateObject(await _userRepository.GetByUserName(user.UserName), true, $"{baseErrorMessage} Ya existe un usuario con el CORREO enviado");
+
+            if (await _userRepository.GetByUserName(user.UserName) != null)
+                ExceptionHelper.GenerateException($"{baseErrorMessage} Ya existe un usuario con el CORREO enviado", new ArgumentException(string.Empty));
         }
 
         private async Task ValidateUpdateUserData(UserManage user, string baseErrorMessage)
@@ -73,7 +81,5 @@ namespace Tuya.CreditCard.Api.App.Services
             ValidationHelper.ValidateEmptyString(user.Adrress, true, $"{baseErrorMessage} La DIRECCIÓN es obligatoria");
             ValidationHelper.ValidateEmptyString(user.UserName, true, $"{baseErrorMessage} El CORREO es obligatorio");
         }
-
-        public async Task<UserData> GetUserByUserName(string userName) => _mapper.Map<UserData>(await _userRepository.GetByUserName(userName));
     }
 }

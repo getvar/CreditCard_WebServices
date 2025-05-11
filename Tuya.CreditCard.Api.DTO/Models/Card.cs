@@ -14,32 +14,71 @@ namespace Tuya.CreditCard.Api.DTO.Models
         public string Bank { get; set; } = string.Empty;
 
         public string ExpirationDate { get; set; } = string.Empty;
+
+        public string OwnerName { get; set; } = string.Empty;
+
+        public string OwnerEmail { get; set; } = string.Empty;
+
+        public string OwnerPhone { get; set; } = string.Empty;
+
+        public string Alias { get; set; } = string.Empty;
     }
 
     public class CardAdd
     {
-        [Required(ErrorMessage = "Alias is mandatory")]
-        [StringLength(50, ErrorMessage = "Alias cannot exceed 50 characters")]
-        public string Alias { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Bank is mandatory")]
-        [StringLength(200, ErrorMessage = "Bank cannot exceed 200 characters")]
-        public string Bank { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "Franchise is mandatory")]
-        [StringLength(70, ErrorMessage = "Franchise cannot exceed 70 characters")]
-        public string Franchise { get; set; } = string.Empty;
-
-        [Required(ErrorMessage = "CardNumber is mandatory")]
-        [StringLength(100, ErrorMessage = "CardNumber cannot exceed 100 characters")]
+        [Required(ErrorMessage = "El NÚMERO DE LA TARJETA es obligatorio")]
+        [StringLength(16, ErrorMessage = "El NÚMERO DE LA TARJETA no es válido")]
         public string CardNumber { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "SecurityCode is mandatory")]
-        [StringLength(100, ErrorMessage = "SecurityCode cannot exceed 100 characters")]
+        [Required(ErrorMessage = "El CÓDIGO DE SEGURIDAD es obligatorio")]
+        [StringLength(3, ErrorMessage = "El CÓDIGO DE SEGURIDAD no es válido")]
         public string SecurityCode { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "ExpirationDate is mandatory")]
+        [Required(ErrorMessage = "La FECHA DE VENCIMIENTO es obligatoria")]
         [Column(TypeName = "date")]
         public DateTime ExpirationDate { get; set; }
+
+        [Required(ErrorMessage = "El NOMBRE DEL TITULAR es obligatorio")]
+        [StringLength(300, ErrorMessage = "El NOMBRE DEL TITULAR no puede exceder los 300 caracteres")]
+        public string OwnerName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El EMAIL DEL TITULAR es obligatorio")]
+        [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Debe enviar un EMAIL válido en el campo EMAIL DEL TITULAR")]
+        [StringLength(300, ErrorMessage = "El EMAIL DEL TITULAR no puede exceder los 300 caracteres")]
+        public string OwnerEmail { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El TELÉFONO DEL TITULAR es obligatorio")]
+        [StringLength(50, ErrorMessage = "El TELÉFONO DEL TITULAR no puede exceder los 50 caracteres")]
+        public string OwnerPhone { get; set; } = string.Empty;
+    }
+
+    public class CardEdit
+    {
+        public Guid Id { get; set; }
+
+        [Required(ErrorMessage = "El NOMBRE DEL TITULAR es obligatorio")]
+        [StringLength(300, ErrorMessage = "El NOMBRE DEL TITULAR no puede exceder los 300 caracteres")]
+        public string OwnerName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El EMAIL DEL TITULAR es obligatorio")]
+        [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Debe enviar un EMAIL válido en el campo EMAIL DEL TITULAR")]
+        [StringLength(300, ErrorMessage = "El EMAIL DEL TITULAR no puede exceder los 300 caracteres")]
+        public string OwnerEmail { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El TELÉFONO DEL TITULAR es obligatorio")]
+        [StringLength(50, ErrorMessage = "El TELÉFONO DEL TITULAR no puede exceder los 50 caracteres")]
+        public string OwnerPhone { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El ALIAS es obligatorio")]
+        [StringLength(50, ErrorMessage = "El ALIAS no puede exceder los 50 caracteres")]
+        public string Alias { get; set; } = string.Empty;
+
+    }
+
+    public class TokenizedCard
+    {
+        public string Token { get; set; } = string.Empty;
+        public string Bank { get; set; } = string.Empty;
+        public string Franchise { get; set; } = string.Empty;
     }
 }

@@ -6,7 +6,6 @@ using Tuya.CreditCard.Api.DTO.Models;
 
 namespace Tuya.CreditCard.Api.Controllers
 {
-    [Authorize]
     [Route("api/User")]
     [ApiController]
     public class UserController : ControllerBase
@@ -24,12 +23,14 @@ namespace Tuya.CreditCard.Api.Controllers
             return Ok(await ApiExecutionHelper.RunAsync(_userService.AddUser(user)));
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUser()
         {
             return Ok(await ApiExecutionHelper.RunAsync(_userService.GetUser()));
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateUser(UserManage user)
         {

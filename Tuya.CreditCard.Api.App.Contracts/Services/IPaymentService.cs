@@ -2,8 +2,8 @@
 
 namespace Tuya.CreditCard.Api.App.Contracts.Services
 {
-    public interface IAuthService
+    public interface IPaymentService
     {
-        Task<UserLoginResponse> LoginUser(UserLogin userData);
+        Task<TokenizedCard> TokenizeCreditCard(CardAdd card);
     }
 }

@@ -1,4 +1,6 @@
-﻿using static Tuya.CreditCard.Api.DTO.Models.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static Tuya.CreditCard.Api.DTO.Models.Enums;
 
 namespace Tuya.CreditCard.Api.DAL.Contracts.Entities
 {
@@ -10,14 +12,17 @@ namespace Tuya.CreditCard.Api.DAL.Contracts.Entities
 
         public Guid CardId { get; set; }
 
+        [StringLength(100)]
         public string TransactionReference { get; set; } = string.Empty;
 
+        [Column(TypeName = "numeric(18,2)")]
         public decimal Value { get; set; }
 
         public DateTime CreationDate { get; set; }
 
         public TransactionState State { get; set; }
 
+        [StringLength(500)]
         public string? ResponseMessage { get; set; }
 
         public virtual SaleEntity Sale { get; set; } = null!;

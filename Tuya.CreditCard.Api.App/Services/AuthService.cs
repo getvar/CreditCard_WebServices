@@ -21,7 +21,7 @@ namespace Tuya.CreditCard.Api.App.Services
             _configuration = configuration;
         }
 
-        public async Task<User> LoginUser(UserLogin userData)
+        public async Task<UserLoginResponse> LoginUser(UserLogin userData)
         {
             string baseErrorMessage = "Usuario y/o contraseña incorrectos";
             ValidateLoginData(userData, baseErrorMessage);
@@ -39,7 +39,7 @@ namespace Tuya.CreditCard.Api.App.Services
             };
 
             var token = GenerateAccessToken(authClaims);
-            return new User
+            return new UserLoginResponse
             {
                 UserName = existsUser.UserName,
                 FullName = existsUser.FullName,

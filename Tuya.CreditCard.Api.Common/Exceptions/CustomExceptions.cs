@@ -4,4 +4,14 @@
     {
         public NotInsertedException(string message) : base(message) { }
     }
+
+    public class NotUpdatedException : Exception
+    {
+        public NotUpdatedException(string message) : base(message) { }
+    }
+
+    public class UnauthorizedException : Exception
+    {
+        public UnauthorizedException(string message) : base(message) { }
+    }
 }

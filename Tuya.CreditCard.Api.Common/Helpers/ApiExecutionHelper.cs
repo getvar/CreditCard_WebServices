@@ -11,6 +11,7 @@ namespace Tuya.CreditCard.Api.Common.Helpers
             {
                 result.Data = await method;
                 result.SetState();
+                result.SetMessage();
             }
             catch (Exception error)
             {

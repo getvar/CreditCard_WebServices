@@ -4,6 +4,7 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
 using System.Text.Json;
 using Tuya.CreditCard.Api.Common.Constants;
+using Tuya.CreditCard.Api.Common.Exceptions;
 using Tuya.CreditCard.Api.CrossCutting.Configuration;
 using Tuya.CreditCard.Api.CrossCutting.IoC;
 
@@ -85,6 +86,7 @@ app.UseExceptionHandler(errorApp =>
         int statusCode = exception switch
         {
             ArgumentException => 400,
+            UnauthorizedException => 401,
             KeyNotFoundException => 404,
             _ => 500
         };

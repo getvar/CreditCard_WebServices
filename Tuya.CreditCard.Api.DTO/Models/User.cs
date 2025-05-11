@@ -1,20 +1,36 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using static Tuya.CreditCard.Api.DTO.Models.Enums;
 
 namespace Tuya.CreditCard.Api.DTO.Models
 {
     public class User
     {
+        public string Identification { get; set; } = string.Empty;
+
+        public string IdentificationType { get; set; } = string.Empty;
+
+        public string Name { get; set; } = string.Empty;
+
+        public string LastName { get; set; } = string.Empty;
+
+        public string Phone { get; set; } = string.Empty;
+
+        public string Adrress { get; set; } = string.Empty;
+
         public string UserName { get; set; } = string.Empty;
-        public string FullName { get; set; } = string.Empty;
-        public string Token { get; set; } = string.Empty;
     }
 
     public class UserManage
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
+
+        public IdentificationType IdentificationType { get; set; }
+
+        [Required(ErrorMessage = "La IDENTIFICACIÓN es obligatoria")]
+        [StringLength(50, ErrorMessage = "La IDENTIFICACIÓN no puede exceder los 50 caracteres")]
+        public string Identification { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El NOMBRE es obligatorio")]
-        [RegularExpression(@"\S+", ErrorMessage = "El NOMBRE es obligatorio")]
         [StringLength(200, ErrorMessage = "El NOMBRE no puede exceder los 200 caracteres")]
         public string Name { get; set; } = string.Empty;
 
@@ -49,9 +65,18 @@ namespace Tuya.CreditCard.Api.DTO.Models
         public string Password { get; set; } = string.Empty;
     }
 
-    public class UserData : User
+    public class UserData
     {
         public Guid Id { get; set; }
+        public string UserName { get; set; } = string.Empty;
+        public string FullName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+    }
+
+    public class UserLoginResponse
+    {
+        public string UserName { get; set; } = string.Empty;
+        public string FullName { get; set; } = string.Empty;
+        public string Token { get; set; } = string.Empty;
     }
 }

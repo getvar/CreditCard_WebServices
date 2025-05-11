@@ -12,7 +12,7 @@
 
     public interface IDelete<T> where T : class
     {
-        Task<T?> DeleteAsync(T entity);
+        Task<T?> DeleteAsync(Guid id);
     }
 
     public interface IGetById<T> where T : class

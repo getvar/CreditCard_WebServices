@@ -2,8 +2,8 @@
 
 namespace Tuya.CreditCard.Api.App.Contracts.Services
 {
-    public interface IAuthService
+    public interface ISaleService
     {
-        Task<UserLoginResponse> LoginUser(UserLogin userData);
+        Task<Sale> ConfirmSale(SaleAdd entity);
     }
 }

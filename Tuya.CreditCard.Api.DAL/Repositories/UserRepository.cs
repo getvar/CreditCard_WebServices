@@ -30,6 +30,7 @@ namespace Tuya.CreditCard.Api.DAL.Repositories
                 element.LastName = entity.LastName;
                 element.Adrress = entity.Adrress;
                 element.Phone = entity.Phone;
+                element.UpdateDate = entity.UpdateDate;
                 _creditCardContext.Users.Update(element);
                 return await _creditCardContext.SaveChangesAsync() > 0 ? element : null;
             }
@@ -39,6 +40,6 @@ namespace Tuya.CreditCard.Api.DAL.Repositories
 
         public async Task<UserEntity?> GetByIdAsync(Guid id) => await _creditCardContext.Users.FindAsync(id);
 
-        public async Task<UserEntity?> GetByUserName(string userName) => await _creditCardContext.Users.FirstOrDefaultAsync(x => x.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
+        public async Task<UserEntity?> GetByUserName(string userName) => await _creditCardContext.Users.FirstOrDefaultAsync(x => x.UserName.Contains(userName));
     }
 }

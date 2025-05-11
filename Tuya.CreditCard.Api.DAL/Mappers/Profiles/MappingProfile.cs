@@ -16,14 +16,14 @@ namespace Tuya.CreditCard.Api.DAL.Mappers.Profiles
             CreateMap<UserData, User>();
 
             CreateMap<UserEntity, User>()
-                .ForMember(target => target.FullName, opt => opt.MapFrom(src => $"{src.Name} {src.LastName}"));
+                .ForMember(target => target.IdentificationType, opt => opt.MapFrom(src => src.IdentificationType.GetDisplayName()));
 
             CreateMap<UserEntity, UserData>()
                 .ForMember(target => target.FullName, opt => opt.MapFrom(src => $"{src.Name} {src.LastName}"));
 
-            CreateMap<CardAdd, CardEntity>()
-                .ForMember(target => target.Last4Digits, opt => opt.MapFrom(src => src.CardNumber.Substring(src.CardNumber.Length - 4, src.CardNumber.Length)))
-                .ForMember(target => target.Alias, opt => opt.MapFrom(src => $"Tarjeta terminada en {src.CardNumber.Substring(src.CardNumber.Length - 4, src.CardNumber.Length)}"));
+            CreateMap<CardAdd, CardEntity>();
+
+            CreateMap<CardEdit, CardEntity>();
 
             CreateMap<CardEntity, Card>()
                 .ForMember(target => target.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate.ToString("MM/yyyy")));
@@ -40,8 +40,7 @@ namespace Tuya.CreditCard.Api.DAL.Mappers.Profiles
                 .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.State.GetDisplayName()))
                 .ForMember(dest => dest.SaleDetails, opt => opt.MapFrom(src => src.SaleDetails));
 
-            CreateMap<SaleDetailAdd, SaleDetailEntity>()
-                .ForMember(dest => dest.TotalValue, opt => opt.MapFrom(src => (src.UnitValue * src.Quantity)));
+            CreateMap<SaleDetailAdd, SaleDetailEntity>();
 
             CreateMap<SaleDetailEntity, SaleDetail>()
                 .ForMember(target => target.ProductName, opt => opt.MapFrom(src => src.Product.Name))

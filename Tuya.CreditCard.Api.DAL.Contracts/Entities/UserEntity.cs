@@ -1,11 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static Tuya.CreditCard.Api.DTO.Models.Enums;
 
 namespace Tuya.CreditCard.Api.DAL.Contracts.Entities
 {
     public class UserEntity
     {
         public Guid Id { get; set; }
+
+        public IdentificationType IdentificationType { get; set; }
+
+        [StringLength(50)]
+        public string Identification { get; set; } = string.Empty;
 
         [StringLength(200)]
         public string Name { get; set; } = string.Empty;
