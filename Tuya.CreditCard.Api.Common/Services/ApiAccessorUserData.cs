@@ -45,11 +45,7 @@ namespace Tuya.CreditCard.Api.Common.Services
 
             if (identity != null)
             {
-                var claim = identity.Claims.FirstOrDefault(x => x.Type.Equals(ClaimTypes.Name));
-
-                if (claim == null)
-                    claim = identity.Claims.FirstOrDefault(x => x.Type.Equals(GeneralConstants.USER_NAME_CLAIM));
-
+                var claim = identity.Claims.FirstOrDefault(x => x.Type.Equals(GeneralConstants.USER_NAME_CLAIM));
                 response = (claim != null) ? claim.Value : string.Empty;
             }
 

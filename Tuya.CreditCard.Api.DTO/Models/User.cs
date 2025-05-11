@@ -71,6 +71,8 @@ namespace Tuya.CreditCard.Api.DTO.Models
         public string UserName { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public string Identification { get; set; } = string.Empty;
+        public string IdentificationType { get; set; } = string.Empty;
     }
 
     public class UserLoginResponse

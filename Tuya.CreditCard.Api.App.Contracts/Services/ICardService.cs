@@ -9,5 +9,6 @@ namespace Tuya.CreditCard.Api.App.Contracts.Services
         Task<bool> UpdateCard(CardEdit card);
         Task<bool> DeleteCard(Guid cardId);
         Task<bool> ValidateExistsCard(Guid cardId);
+        Task<Card> GetCardById(Guid id);
     }
 }

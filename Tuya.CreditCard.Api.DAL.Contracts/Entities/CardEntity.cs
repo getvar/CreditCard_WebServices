@@ -36,6 +36,11 @@ namespace Tuya.CreditCard.Api.DAL.Contracts.Entities
         [Column(TypeName = "datetime")]
         public DateTime? UpdateDate { get; set; }
 
+        public IdentificationType OwnerIdentificationType { get; set; }
+
+        [StringLength(50)]
+        public string OwnerIdentification { get; set; } = string.Empty;
+
         [StringLength(300)]
         public string OwnerName { get; set; } = string.Empty;
 

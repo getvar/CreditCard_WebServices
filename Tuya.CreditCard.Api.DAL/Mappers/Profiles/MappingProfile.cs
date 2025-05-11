@@ -19,14 +19,16 @@ namespace Tuya.CreditCard.Api.DAL.Mappers.Profiles
                 .ForMember(target => target.IdentificationType, opt => opt.MapFrom(src => src.IdentificationType.GetDisplayName()));
 
             CreateMap<UserEntity, UserData>()
-                .ForMember(target => target.FullName, opt => opt.MapFrom(src => $"{src.Name} {src.LastName}"));
+                .ForMember(target => target.FullName, opt => opt.MapFrom(src => $"{src.Name} {src.LastName}"))
+                .ForMember(target => target.IdentificationType, opt => opt.MapFrom(src => src.IdentificationType.GetDisplayName()));
 
             CreateMap<CardAdd, CardEntity>();
 
             CreateMap<CardEdit, CardEntity>();
 
             CreateMap<CardEntity, Card>()
-                .ForMember(target => target.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate.ToString("MM/yyyy")));
+                .ForMember(target => target.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate.ToString("MM/yyyy")))
+                .ForMember(target => target.OwnerIdentificationType, opt => opt.MapFrom(src => src.OwnerIdentificationType.GetDisplayName()));
 
             CreateMap<ProductEntity, Product>();
 

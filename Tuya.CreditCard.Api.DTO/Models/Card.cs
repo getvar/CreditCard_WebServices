@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using static Tuya.CreditCard.Api.DTO.Models.Enums;
+using System.Text.Json.Serialization;
 
 namespace Tuya.CreditCard.Api.DTO.Models
 {
@@ -15,6 +17,10 @@ namespace Tuya.CreditCard.Api.DTO.Models
 
         public string ExpirationDate { get; set; } = string.Empty;
 
+        public string OwnerIdentificationType { get; set; } = string.Empty;
+
+        public string OwnerIdentification { get; set; } = string.Empty;
+
         public string OwnerName { get; set; } = string.Empty;
 
         public string OwnerEmail { get; set; } = string.Empty;
@@ -22,6 +28,9 @@ namespace Tuya.CreditCard.Api.DTO.Models
         public string OwnerPhone { get; set; } = string.Empty;
 
         public string Alias { get; set; } = string.Empty;
+
+        [JsonIgnore]
+        public string Token { get; set; } = string.Empty;
     }
 
     public class CardAdd
@@ -37,6 +46,13 @@ namespace Tuya.CreditCard.Api.DTO.Models
         [Required(ErrorMessage = "La FECHA DE VENCIMIENTO es obligatoria")]
         [Column(TypeName = "date")]
         public DateTime ExpirationDate { get; set; }
+
+        [Required(ErrorMessage = "El TIPO DE IDENTIFICACIÓN es obligatorio")]
+        public IdentificationType OwnerIdentificationType { get; set; }
+
+        [Required(ErrorMessage = "La IDENTIFICACIÓN es obligatoria")]
+        [StringLength(50, ErrorMessage = "La IDENTIFICACIÓN no puede exceder los 50 caracteres")]
+        public string OwnerIdentification { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El NOMBRE DEL TITULAR es obligatorio")]
         [StringLength(300, ErrorMessage = "El NOMBRE DEL TITULAR no puede exceder los 300 caracteres")]
@@ -80,5 +96,20 @@ namespace Tuya.CreditCard.Api.DTO.Models
         public string Token { get; set; } = string.Empty;
         public string Bank { get; set; } = string.Empty;
         public string Franchise { get; set; } = string.Empty;
+    }
+
+    public class CardTokenData
+    {
+        public string CardNumber { get; set; } = string.Empty;
+
+        public string SecurityCode { get; set; } = string.Empty;
+
+        public DateTime ExpirationDate { get; set; }
+
+        public string OwnerName { get; set; } = string.Empty;
+        
+        public string OwnerIdentificationType { get; set; } = string.Empty;
+
+        public string OwnerIdentification { get; set; } = string.Empty;
     }
 }

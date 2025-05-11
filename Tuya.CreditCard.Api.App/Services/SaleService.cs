@@ -8,6 +8,8 @@ using Tuya.CreditCard.Api.DAL.Contracts.Repositories;
 using Tuya.CreditCard.Api.DAL.Mappers;
 using Tuya.CreditCard.Api.DAL.Repositories;
 using Tuya.CreditCard.Api.DTO.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using static Tuya.CreditCard.Api.DTO.Models.Enums;
 
 namespace Tuya.CreditCard.Api.App.Services
 {
@@ -18,15 +20,17 @@ namespace Tuya.CreditCard.Api.App.Services
         private readonly IApiAccessorUserData _apiAccessorUserData;
         private readonly ICardService _cardService;
         private readonly IProductService _productService;
+        private readonly ITransactionService _transactionService;
 
         public SaleService(ISaleRepository saleRepository, IMapper mapper, IApiAccessorUserData apiAccessorUserData
-               , ICardService cardService, IProductService productService)
+            , ICardService cardService, IProductService productService, ITransactionService transactionService)
         {
             _saleRepository = saleRepository;
             _mapper = mapper;
             _apiAccessorUserData = apiAccessorUserData;
             _cardService = cardService;
             _productService = productService;
+            _transactionService = transactionService;
         }
 
         public async Task<Sale> ConfirmSale(SaleAdd entity)
@@ -36,13 +40,35 @@ namespace Tuya.CreditCard.Api.App.Services
             var products = await _productService.GetAll();
             var saveEntity = SaleMapper.Map(entity, products, _mapper);
             saveEntity.UserId = _apiAccessorUserData.GetUserId();
+            var card = await _cardService.GetCardById(entity.CardId);
 
             if (saveEntity.SaleDetails.Any(x => x.TotalValue <= 0))
                 ExceptionHelper.GenerateException($"{baseErrorMessage} Al menos un producto no está disponible", new ArgumentException(string.Empty));
 
+            var transaction = await _transactionService.ConfirmTransaction(new TransactionSend()
+            {
+                CardId = entity.CardId,
+                CardToken = card.Token,
+                OwnerIdentification = card.OwnerIdentification,
+                OwnerIdentificationType = card.OwnerIdentificationType,
+                OwnerName = card.OwnerName,
+                Value = saveEntity.TotalValue
+            });
+
+            if (transaction == null || !transaction.State.Equals(TransactionState.Ok))
+                ExceptionHelper.GenerateException($"{baseErrorMessage} No fue posible realizar el pago", new ArgumentException(string.Empty));
+
+            saveEntity.Transactions = TransactionMapper.Map(transaction!, saveEntity, card);
             var createdSale = await _saleRepository.AddAsync(saveEntity);
             ValidateObjectHelper<SaleEntity>.ValidateObject(createdSale, true, $"{baseErrorMessage} Por favor, Intente más tarde", new NotInsertedException(string.Empty));
             return _mapper.Map<Sale>(await _saleRepository.GetByIdAsync(createdSale!.Id));
+        }
+
+        public async Task<List<Sale>> GetSaleListByUserId()
+        {
+            var saleList = await _saleRepository.GetAllByUserIdAsync(_apiAccessorUserData.GetUserId());
+            ValidateObjectHelper<SaleEntity>.ValidateObjectList(saleList, true, $"No se encontró información", new KeyNotFoundException(string.Empty));
+            return _mapper.Map<List<Sale>>(saleList);
         }
 
         private async Task ValidateSaleData(SaleAdd entity, string baseErrorMessage)

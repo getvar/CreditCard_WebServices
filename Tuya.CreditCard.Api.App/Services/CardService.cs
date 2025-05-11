@@ -30,7 +30,15 @@ namespace Tuya.CreditCard.Api.App.Services
             string baseErrorMessage = "No fue posible crear la tarjeta.";
             ValidateAddCardData(card, baseErrorMessage);
             var entity = CardMapper.MapAdd(card, _mapper);
-            var tokenizedCard = await _paymentService.TokenizeCreditCard(card);
+            var tokenizedCard = await _paymentService.TokenizeCreditCard(new CardTokenData()
+            {
+                CardNumber = card.CardNumber,
+                ExpirationDate = card.ExpirationDate,
+                OwnerIdentification = card.OwnerIdentification,
+                OwnerIdentificationType = card.OwnerIdentificationType.ToString(),
+                OwnerName = card.OwnerName,
+                SecurityCode = card.SecurityCode
+            });
             ValidateObjectHelper<TokenizedCard>.ValidateObject(tokenizedCard, true, $"{baseErrorMessage} Por favor, Intente más tarde", new NotInsertedException(string.Empty));
             entity.Token = tokenizedCard.Token;
             entity.Bank = tokenizedCard.Bank;
@@ -79,11 +87,16 @@ namespace Tuya.CreditCard.Api.App.Services
             if (_apiAccessorUserData.GetUserId().Equals(Guid.Empty))
                 ExceptionHelper.GenerateException($"{baseErrorMessage} El usuario no ha iniciado sesión", new UnauthorizedException(string.Empty));
 
+            ValidationHelper.ValidateEmptyString(card.OwnerIdentification, true, $"{baseErrorMessage} La IDENTIFICACIÓN es obligatoria");
             ValidationHelper.ValidateEmptyString(card.CardNumber, true, $"{baseErrorMessage} El NÚMERO DE LA TARJETA es obligatorio");
             ValidationHelper.ValidateEmptyString(card.SecurityCode, true, $"{baseErrorMessage} El CÓDIGO DE SEGURIDAD es obligatorio");
             ValidationHelper.ValidateEmptyString(card.OwnerName, true, $"{baseErrorMessage} El NOMBRE DEL TITULAR es obligatorio");
             ValidationHelper.ValidateEmptyString(card.OwnerEmail, true, $"{baseErrorMessage} El EMAIL DEL TITULAR es obligatorio");
             ValidationHelper.ValidateEmptyString(card.OwnerPhone, true, $"{baseErrorMessage} El TELÉFONO DEL TITULAR es obligatorio");
+
+            if (card.ExpirationDate.Year < DateTime.Now.Year 
+                || (card.ExpirationDate.Year.Equals(DateTime.Now.Year) && card.ExpirationDate.Month < DateTime.Now.Month))
+                ExceptionHelper.GenerateException($"{baseErrorMessage} La tarjeta está vencida", new ArgumentException(string.Empty));
         }
 
         private async Task ValidateUpdateCardData(CardEdit card, string baseErrorMessage)
@@ -106,5 +119,7 @@ namespace Tuya.CreditCard.Api.App.Services
             var existsCard = await _cardRepository.GetCardByUserIdAndCardId(_apiAccessorUserData.GetUserId(), cardId);
             ValidateObjectHelper<CardEntity>.ValidateObject(existsCard, true, $"{baseErrorMessage} La tarjeta no existe o ya no está activa", new KeyNotFoundException(string.Empty));
         }
+
+        public async Task<Card> GetCardById(Guid id) => _mapper.Map<Card>(await _cardRepository.GetByIdAsync(id));
     }
 }
