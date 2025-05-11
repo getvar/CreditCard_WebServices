@@ -4,6 +4,7 @@ namespace Tuya.CreditCard.Api.App.Contracts.Services
 {
     public interface ITransactionService
     {
-        Task<Transaction?> ConfirmTransaction(TransactionSend transactionSend);
+        Task<TransactionAdd?> ConfirmTransaction(TransactionPaymentAdd transactionEntity);
+        Task<List<Transaction>> GetConfirmTransactions();
     }
 }

@@ -19,6 +19,27 @@ namespace Tuya.CreditCard.Api.DTO.Models
         public string? ResponseMessage { get; set; }
     }
 
+    public class TransactionAdd
+    {
+        public Guid CardId { get; set; }
+
+        public string TransactionReference { get; set; } = string.Empty;
+
+        public decimal Value { get; set; }
+
+        public DateTime CreationDate { get; set; }
+
+        public TransactionState State { get; set; }
+
+        public string? ResponseMessage { get; set; }
+    }
+
+    public class TransactionPaymentAdd
+    {
+        public Guid CardId { get; set; }
+        public decimal Value { get; set; }
+    }
+
     public class TransactionSend
     {
         public Guid CardId { get; set; }

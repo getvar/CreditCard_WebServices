@@ -6,9 +6,7 @@ using Tuya.CreditCard.Api.Common.Helpers;
 using Tuya.CreditCard.Api.DAL.Contracts.Entities;
 using Tuya.CreditCard.Api.DAL.Contracts.Repositories;
 using Tuya.CreditCard.Api.DAL.Mappers;
-using Tuya.CreditCard.Api.DAL.Repositories;
 using Tuya.CreditCard.Api.DTO.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using static Tuya.CreditCard.Api.DTO.Models.Enums;
 
 namespace Tuya.CreditCard.Api.App.Services
@@ -40,34 +38,40 @@ namespace Tuya.CreditCard.Api.App.Services
             var products = await _productService.GetAll();
             var saveEntity = SaleMapper.Map(entity, products, _mapper);
             saveEntity.UserId = _apiAccessorUserData.GetUserId();
-            var card = await _cardService.GetCardById(entity.CardId);
 
             if (saveEntity.SaleDetails.Any(x => x.TotalValue <= 0))
                 ExceptionHelper.GenerateException($"{baseErrorMessage} Al menos un producto no está disponible", new ArgumentException(string.Empty));
 
-            var transaction = await _transactionService.ConfirmTransaction(new TransactionSend()
+            var transaction = await _transactionService.ConfirmTransaction(new TransactionPaymentAdd()
             {
                 CardId = entity.CardId,
-                CardToken = card.Token,
-                OwnerIdentification = card.OwnerIdentification,
-                OwnerIdentificationType = card.OwnerIdentificationType,
-                OwnerName = card.OwnerName,
                 Value = saveEntity.TotalValue
             });
 
             if (transaction == null || !transaction.State.Equals(TransactionState.Ok))
                 ExceptionHelper.GenerateException($"{baseErrorMessage} No fue posible realizar el pago", new ArgumentException(string.Empty));
 
-            saveEntity.Transactions = TransactionMapper.Map(transaction!, saveEntity, card);
+            saveEntity.Transactions = new List<TransactionEntity>
+            {
+                _mapper.Map<TransactionEntity>(transaction)
+            };
             var createdSale = await _saleRepository.AddAsync(saveEntity);
             ValidateObjectHelper<SaleEntity>.ValidateObject(createdSale, true, $"{baseErrorMessage} Por favor, Intente más tarde", new NotInsertedException(string.Empty));
-            return _mapper.Map<Sale>(await _saleRepository.GetByIdAsync(createdSale!.Id));
+            var sale = await _saleRepository.GetByIdAsync(createdSale!.Id);
+            sale!.SaleDetails.ToList().ForEach(item =>
+            {
+                item.Product.ImageUrl = _productService.GetProductImageUrl(item.Product.ImageUrl!);
+            });
+            return _mapper.Map<Sale>(sale);
         }
 
         public async Task<List<Sale>> GetSaleListByUserId()
         {
             var saleList = await _saleRepository.GetAllByUserIdAsync(_apiAccessorUserData.GetUserId());
             ValidateObjectHelper<SaleEntity>.ValidateObjectList(saleList, true, $"No se encontró información", new KeyNotFoundException(string.Empty));
+            saleList.SelectMany(sale => sale.SaleDetails).ToList().ForEach(item =>
+                item.Product.ImageUrl = _productService.GetProductImageUrl(item.Product.ImageUrl!)
+            );
             return _mapper.Map<List<Sale>>(saleList);
         }
 

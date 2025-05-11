@@ -26,8 +26,8 @@ namespace Tuya.CreditCard.Api.DAL.Repositories
             .FirstOrDefaultAsync(x => x.Id.Equals(id));
 
         public async Task<List<SaleEntity>> GetAllByUserIdAsync(Guid userId) => await _creditCardContext.Sales
-            .Include(x => x.SaleDetails)
-            .Include(x => x.Transactions)
+            .Include(x => x.SaleDetails).ThenInclude(x => x.Product)
+            .Include(x => x.Transactions).ThenInclude(x => x.Card)
             .Where(x => x.UserId.Equals(userId)).ToListAsync();
     }
 }

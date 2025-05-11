@@ -15,12 +15,14 @@ namespace Tuya.CreditCard.Api.App.Services
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IApiAccessorUserData _apiAccessorUserData;
+        private readonly IMasterService _masterService;
 
-        public UserService(IUserRepository userRepository, IMapper mapper, IApiAccessorUserData apiAccessorUserData)
+        public UserService(IUserRepository userRepository, IMapper mapper, IApiAccessorUserData apiAccessorUserData, IMasterService masterService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
             _apiAccessorUserData = apiAccessorUserData;
+            _masterService = masterService;
         }
 
         public async Task<bool> AddUser(UserManage user)
@@ -42,11 +44,12 @@ namespace Tuya.CreditCard.Api.App.Services
 
         public async Task<UserData> GetUserByUserName(string userName) => _mapper.Map<UserData>(await _userRepository.GetByUserName(userName));
 
-        public async Task<bool> UpdateUser(UserManage user)
+        public async Task<bool> UpdateUser(UserEdit user)
         {
             string baseErrorMessage = "No fue posible actualizar el usuario.";
-            await ValidateUpdateUserData(user, baseErrorMessage);
+            await ValidateUpdateUserData(user, _apiAccessorUserData.GetUserId(), baseErrorMessage);
             var entity = UserMapper.MapUpdate(user, _mapper);
+            entity.Id = _apiAccessorUserData.GetUserId();
             var updatedUser = await _userRepository.EditAsync(entity);
             ValidateObjectHelper<UserEntity>.ValidateObject(updatedUser, true, $"{baseErrorMessage} Por favor, Intente más tarde", new NotInsertedException(string.Empty));
             return true;
@@ -54,32 +57,32 @@ namespace Tuya.CreditCard.Api.App.Services
 
         private async Task ValidateAddUserData(UserManage user, string baseErrorMessage)
         {
-            ValidateGenericUserData(user, baseErrorMessage);
+            await ValidateGenericUserData(user.Name, user.LastName, user.Phone, user.Adrress, (int)user.IdentificationType, user.Identification, baseErrorMessage);
+            ValidationHelper.ValidateEmptyString(user.UserName, true, $"{baseErrorMessage} El CORREO es obligatorio");
             ValidationHelper.ValidateEmptyString(user.Password, true, $"{baseErrorMessage} La CONTRASEÑA es obligatoria");
 
             if (await _userRepository.GetByUserName(user.UserName) != null)
                 ExceptionHelper.GenerateException($"{baseErrorMessage} Ya existe un usuario con el CORREO enviado", new ArgumentException(string.Empty));
         }
 
-        private async Task ValidateUpdateUserData(UserManage user, string baseErrorMessage)
+        private async Task ValidateUpdateUserData(UserEdit user, Guid userId, string baseErrorMessage)
         {
-            if (user.Id == Guid.Empty)
-                ExceptionHelper.GenerateException($"{baseErrorMessage} Debe enviar el ID del usuario", new ArgumentException(string.Empty));
+            if (userId == Guid.Empty)
+                ExceptionHelper.GenerateException($"{baseErrorMessage} El usuario no ha iniciado sesión", new ArgumentException(string.Empty));
 
-            ValidateGenericUserData(user, baseErrorMessage);
-            var existsUser = await _userRepository.GetByUserName(user.UserName);
-
-            if (existsUser != null && !existsUser.Id.Equals(user.Id))
-                ExceptionHelper.GenerateException($"{baseErrorMessage} Ya existe un usuario con el CORREO enviado", new ArgumentException(string.Empty));
+            await ValidateGenericUserData(user.Name, user.LastName, user.Phone, user.Adrress, (int)user.IdentificationType, user.Identification, baseErrorMessage);
         }
 
-        private void ValidateGenericUserData(UserManage user, string baseErrorMessage)
+        private async Task ValidateGenericUserData(string name, string lastName, string phone, string adrress, int identificationType, string identification, string baseErrorMessage)
         {
-            ValidationHelper.ValidateEmptyString(user.Name, true, $"{baseErrorMessage} El NOMBRE es obligatorio");
-            ValidationHelper.ValidateEmptyString(user.LastName, true, $"{baseErrorMessage} El APELLIDO es obligatorio");
-            ValidationHelper.ValidateEmptyString(user.Phone, true, $"{baseErrorMessage} El TELÉFONO es obligatorio");
-            ValidationHelper.ValidateEmptyString(user.Adrress, true, $"{baseErrorMessage} La DIRECCIÓN es obligatoria");
-            ValidationHelper.ValidateEmptyString(user.UserName, true, $"{baseErrorMessage} El CORREO es obligatorio");
+            if (!await _masterService.ExistsIdentificationType(identificationType))
+                ExceptionHelper.GenerateException($"{baseErrorMessage} Debe enviar un TIPO DE IDENTIFICACIÓN válido", new ArgumentException(string.Empty));
+
+            ValidationHelper.ValidateEmptyString(identification, true, $"{baseErrorMessage} La IDENTIFICACIÓN es obligatoria");
+            ValidationHelper.ValidateEmptyString(name, true, $"{baseErrorMessage} El NOMBRE es obligatorio");
+            ValidationHelper.ValidateEmptyString(lastName, true, $"{baseErrorMessage} El APELLIDO es obligatorio");
+            ValidationHelper.ValidateEmptyString(phone, true, $"{baseErrorMessage} El TELÉFONO es obligatorio");
+            ValidationHelper.ValidateEmptyString(adrress, true, $"{baseErrorMessage} La DIRECCIÓN es obligatoria");
         }
     }
 }

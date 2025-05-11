@@ -16,7 +16,7 @@ namespace Tuya.CreditCard.Api.DAL.Mappers
             return entity;
         }
 
-        public static UserEntity MapUpdate(UserManage user, IMapper mapper)
+        public static UserEntity MapUpdate(UserEdit user, IMapper mapper)
         {
             var entity = mapper.Map<UserEntity>(user);
             entity.UpdateDate = DateTime.UtcNow;

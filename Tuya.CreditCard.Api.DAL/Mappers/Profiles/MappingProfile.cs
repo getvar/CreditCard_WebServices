@@ -11,6 +11,8 @@ namespace Tuya.CreditCard.Api.DAL.Mappers.Profiles
         {
             CreateMap<UserManage, UserEntity>();
 
+            CreateMap<UserEdit, UserEntity>();
+
             CreateMap<UserEntity, UserManage>();
 
             CreateMap<UserData, User>();
@@ -49,6 +51,8 @@ namespace Tuya.CreditCard.Api.DAL.Mappers.Profiles
                 .ForMember(dest => dest.ProductImageUrl, opt => opt.MapFrom(src => src.Product.ImageUrl))
                 .ForMember(dest => dest.UnitValue, opt => opt.MapFrom(src => $"${src.UnitValue:N0}"))
                 .ForMember(dest => dest.TotalValue, opt => opt.MapFrom(src => $"${src.TotalValue:N0}"));
+
+            CreateMap<TransactionAdd, TransactionEntity>();
 
             CreateMap<TransactionEntity, Transaction>()
                 .ForMember(target => target.SaleCode, opt => opt.MapFrom(src => src.Sale.SaleCode))

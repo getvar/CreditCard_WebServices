@@ -32,7 +32,7 @@ namespace Tuya.CreditCard.Api.Controllers
 
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UserManage user)
+        public async Task<IActionResult> UpdateUser(UserEdit user)
         {
             return Ok(await ApiExecutionHelper.RunAsync(_userService.UpdateUser(user)));
         }

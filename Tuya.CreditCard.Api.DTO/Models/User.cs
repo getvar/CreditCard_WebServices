@@ -22,8 +22,6 @@ namespace Tuya.CreditCard.Api.DTO.Models
 
     public class UserManage
     {
-        public Guid? Id { get; set; }
-
         public IdentificationType IdentificationType { get; set; }
 
         [Required(ErrorMessage = "La IDENTIFICACIÓN es obligatoria")]
@@ -54,6 +52,31 @@ namespace Tuya.CreditCard.Api.DTO.Models
         [Required(ErrorMessage = "La CONTRASEÑA es obligatoria")]
         [StringLength(400, ErrorMessage = "La CONTRASEÑA no puede exceder los 400 caracteres")]
         public string Password { get; set; } = string.Empty;
+    }
+
+    public class UserEdit
+    {
+        public IdentificationType IdentificationType { get; set; }
+
+        [Required(ErrorMessage = "La IDENTIFICACIÓN es obligatoria")]
+        [StringLength(50, ErrorMessage = "La IDENTIFICACIÓN no puede exceder los 50 caracteres")]
+        public string Identification { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El NOMBRE es obligatorio")]
+        [StringLength(200, ErrorMessage = "El NOMBRE no puede exceder los 200 caracteres")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El APELLIDO es obligatorio")]
+        [StringLength(200, ErrorMessage = "El APELLIDO no puede exceder los 200 caracteres")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "El TELÉFONO es obligatorio")]
+        [StringLength(50, ErrorMessage = "El TELÉFONO no puede exceder los 200 caracteres")]
+        public string Phone { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "La DIRECCIÓN es obligatoria")]
+        [StringLength(200, ErrorMessage = "La DIRECCIÓN no puede exceder los 200 caracteres")]
+        public string Adrress { get; set; } = string.Empty;
     }
 
     public class UserLogin

@@ -30,6 +30,8 @@ namespace Tuya.CreditCard.Api.DAL.Repositories
                 element.LastName = entity.LastName;
                 element.Adrress = entity.Adrress;
                 element.Phone = entity.Phone;
+                element.IdentificationType = entity.IdentificationType;
+                element.Identification = entity.Identification;
                 element.UpdateDate = entity.UpdateDate;
                 _creditCardContext.Users.Update(element);
                 return await _creditCardContext.SaveChangesAsync() > 0 ? element : null;

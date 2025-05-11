@@ -19,6 +19,10 @@ namespace Tuya.CreditCard.Api.CrossCutting.IoC
             services.AddTransient<ICardService, CardService>();
             services.AddTransient<IPaymentService, PaymentService>();
             services.AddTransient<IProductService, ProductService>();
+            services.AddTransient<ISaleService, SaleService>();
+            services.AddTransient<ITransactionService, TransactionService>();
+            services.AddTransient<IMasterService, MasterService>();
+            services.AddTransient<IHttpHelperService, HttpHelperService>();
             services.AddAutoMapper(typeof(MappingProfile));
             return services;
         }
