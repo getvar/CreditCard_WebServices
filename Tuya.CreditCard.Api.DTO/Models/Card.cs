@@ -36,6 +36,7 @@ namespace Tuya.CreditCard.Api.DTO.Models
     public class CardAdd
     {
         [Required(ErrorMessage = "El NÚMERO DE LA TARJETA es obligatorio")]
+        [RegularExpression(@"[0-9]+", ErrorMessage = "Debe enviar solo números en el NÚMERO DE LA TARJETA")]
         [StringLength(16, ErrorMessage = "El NÚMERO DE LA TARJETA no es válido")]
         public string CardNumber { get; set; } = string.Empty;
 

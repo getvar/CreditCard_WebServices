@@ -7,6 +7,7 @@ using Tuya.CreditCard.Api.DAL.Contracts.Entities;
 using Tuya.CreditCard.Api.DAL.Contracts.Repositories;
 using Tuya.CreditCard.Api.DAL.Mappers;
 using Tuya.CreditCard.Api.DTO.Models;
+using static Tuya.CreditCard.Api.DTO.Models.Enums;
 
 namespace Tuya.CreditCard.Api.App.Services
 {
@@ -16,19 +17,21 @@ namespace Tuya.CreditCard.Api.App.Services
         private readonly IMapper _mapper;
         private readonly IApiAccessorUserData _apiAccessorUserData;
         private readonly IPaymentService _paymentService;
+        private readonly IMasterService _masterService;
 
-        public CardService(ICardRepository cardRepository, IMapper mapper, IApiAccessorUserData apiAccessorUserData, IPaymentService paymentService)
+        public CardService(ICardRepository cardRepository, IMapper mapper, IApiAccessorUserData apiAccessorUserData, IPaymentService paymentService, IMasterService masterService)
         {
             _cardRepository = cardRepository;
             _mapper = mapper;
             _apiAccessorUserData = apiAccessorUserData;
             _paymentService = paymentService;
+            _masterService = masterService;
         }
 
         public async Task<bool> AddCard(CardAdd card)
         {
             string baseErrorMessage = "No fue posible crear la tarjeta.";
-            ValidateAddCardData(card, baseErrorMessage);
+            await ValidateAddCardData(card, baseErrorMessage);
             var entity = CardMapper.MapAdd(card, _mapper);
             var tokenizedCard = await _paymentService.TokenizeCreditCard(new CardTokenData()
             {
@@ -82,10 +85,13 @@ namespace Tuya.CreditCard.Api.App.Services
             return existsCard != null;
         }
 
-        private void ValidateAddCardData(CardAdd card, string baseErrorMessage)
+        private async Task ValidateAddCardData(CardAdd card, string baseErrorMessage)
         {
             if (_apiAccessorUserData.GetUserId().Equals(Guid.Empty))
                 ExceptionHelper.GenerateException($"{baseErrorMessage} El usuario no ha iniciado sesión", new UnauthorizedException(string.Empty));
+
+            if (!await _masterService.ExistsIdentificationType((int)card.OwnerIdentificationType))
+                ExceptionHelper.GenerateException($"{baseErrorMessage} Debe enviar un TIPO DE IDENTIFICACIÓN válido", new ArgumentException(string.Empty));
 
             ValidationHelper.ValidateEmptyString(card.OwnerIdentification, true, $"{baseErrorMessage} La IDENTIFICACIÓN es obligatoria");
             ValidationHelper.ValidateEmptyString(card.CardNumber, true, $"{baseErrorMessage} El NÚMERO DE LA TARJETA es obligatorio");

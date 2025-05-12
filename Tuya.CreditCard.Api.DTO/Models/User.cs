@@ -45,12 +45,13 @@ namespace Tuya.CreditCard.Api.DTO.Models
         public string Adrress { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El CORREO es obligatorio")]
-        [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Debe enviar un EMAIL válido en el campo NOMBRE DE USUARIO")]
+        [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", ErrorMessage = "Debe enviar un EMAIL válido")]
         [StringLength(400, ErrorMessage = "El CORREO no puede exceder los 200 caracteres")]
         public string UserName { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "La CONTRASEÑA es obligatoria")]
-        [StringLength(400, ErrorMessage = "La CONTRASEÑA no puede exceder los 400 caracteres")]
+        [MinLength(6, ErrorMessage = "Las CONTRASEÑA debe ser de mínimo 6 caracteres")]
+        [StringLength(50, ErrorMessage = "La CONTRASEÑA no puede exceder los 400 caracteres")]
         public string Password { get; set; } = string.Empty;
     }
 

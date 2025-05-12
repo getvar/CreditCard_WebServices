@@ -20,7 +20,16 @@ namespace Tuya.CreditCard.Api.DAL.Mappers
 
         private static List<SaleDetailEntity> MapDetail(List<SaleDetailAdd> details, List<Product> products, IMapper mapper)
         {
-            var detailList = mapper.Map<List<SaleDetailEntity>>(details);
+            var groupedDetails = details
+                .GroupBy(d => d.ProductId)
+                .Select(g => new SaleDetailAdd
+                {
+                    ProductId = g.Key,
+                    Quantity = g.Sum(x => x.Quantity)
+                })
+                .ToList();
+
+            var detailList = mapper.Map<List<SaleDetailEntity>>(groupedDetails);
 
             foreach (var item in detailList)
             {

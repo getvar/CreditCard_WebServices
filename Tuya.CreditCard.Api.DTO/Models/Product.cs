@@ -12,6 +12,8 @@
 
         public decimal Price { get; set; }
 
+        public string strPrice { get; set; } = string.Empty;
+
         public string? ImageUrl { get; set; }
 
         public int AvailableQuantity { get; set; }

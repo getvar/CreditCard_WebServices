@@ -32,7 +32,8 @@ namespace Tuya.CreditCard.Api.DAL.Mappers.Profiles
                 .ForMember(target => target.ExpirationDate, opt => opt.MapFrom(src => src.ExpirationDate.ToString("MM/yyyy")))
                 .ForMember(target => target.OwnerIdentificationType, opt => opt.MapFrom(src => src.OwnerIdentificationType.GetDisplayName()));
 
-            CreateMap<ProductEntity, Product>();
+            CreateMap<ProductEntity, Product>()
+                .ForMember(dest => dest.strPrice, opt => opt.MapFrom(src => $"${src.Price:N0}"));
 
             CreateMap<SaleAdd, SaleEntity>();
 

@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Tuya.CreditCard.Api.App.Contracts.Services;
 using Tuya.CreditCard.Api.Common.Helpers;
 
 namespace Tuya.CreditCard.Api.Controllers
 {
-    [Authorize]
     [Route("api/Product")]
     [ApiController]
     public class ProductController : ControllerBase

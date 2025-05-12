@@ -57,7 +57,7 @@ namespace Tuya.CreditCard.Api.App.Services
         {
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]!));
             return new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(120),
+                expires: DateTime.Now.AddMinutes(180),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
             );
