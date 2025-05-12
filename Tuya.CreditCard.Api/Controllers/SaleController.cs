@@ -18,12 +18,21 @@ namespace Tuya.CreditCard.Api.Controllers
             _saleService = saleService;
         }
 
+        /// <summary>
+        /// Permite confirmar un venta/compra. A través de este endpoint también se confirma la transacción de pago
+        /// </summary>
+        /// <param name="saleEntity"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CofirmSale(SaleAdd saleEntity)
         {
             return Ok(await ApiExecutionHelper.RunAsync(_saleService.ConfirmSale(saleEntity)));
         }
 
+        /// <summary>
+        /// Permite obtener el listado de ventas asociadas a un usuario autorizado
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetSales()
         {

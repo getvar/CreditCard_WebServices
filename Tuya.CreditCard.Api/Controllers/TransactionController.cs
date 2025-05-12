@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Tuya.CreditCard.Api.App.Contracts.Services;
-using Tuya.CreditCard.Api.App.Services;
 using Tuya.CreditCard.Api.Common.Helpers;
 
 namespace Tuya.CreditCard.Api.Controllers
@@ -19,6 +17,10 @@ namespace Tuya.CreditCard.Api.Controllers
             _transactionService = transactionService;
         }
 
+        /// <summary>
+        /// Permite obtener el listado de transacciones asociadas a un usuario autorizado
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetTransactions()
         {

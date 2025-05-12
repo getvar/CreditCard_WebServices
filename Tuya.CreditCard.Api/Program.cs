@@ -18,6 +18,8 @@ builder.Services.AddAuthSettings(configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc(PlatformServices.Default.Application.ApplicationVersion, new OpenApiInfo
@@ -26,6 +28,8 @@ builder.Services.AddSwaggerGen(c =>
         Version = PlatformServices.Default.Application.ApplicationVersion,
         Description = "API for Credit Card project"
     });
+
+    c.IncludeXmlComments(xmlPath);
 
     List<string> xmlFiles = Directory.GetFiles(PlatformServices.Default.Application.ApplicationBasePath, "*.xml", SearchOption.TopDirectoryOnly).ToList();
     xmlFiles.ForEach(xmlFile => c.IncludeXmlComments(xmlFile));
@@ -62,7 +66,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.DocumentTitle = $"{PlatformServices.Default.Application.ApplicationName} {PlatformServices.Default.Application.ApplicationVersion}";
-    c.SwaggerEndpoint($"../swagger/{PlatformServices.Default.Application.ApplicationVersion}/swagger.json", $"{PlatformServices.Default.Application.ApplicationName} - Dexco");
+    c.SwaggerEndpoint($"../swagger/{PlatformServices.Default.Application.ApplicationVersion}/swagger.json", $"{PlatformServices.Default.Application.ApplicationName} - Tuya");
     c.DisplayRequestDuration();
 });
 

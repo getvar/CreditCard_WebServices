@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Tuya.CreditCard.Api.App.Contracts.Services;
 using Tuya.CreditCard.Api.Common.Helpers;
 
@@ -16,6 +15,10 @@ namespace Tuya.CreditCard.Api.Controllers
             _masterService = masterService;
         }
 
+        /// <summary>
+        /// Permite obtener el listado de tipos de identificación: CC, CE, TI
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetIdentificationTypes")]
         public async Task<IActionResult> GetIdentificationTypes()
         {

@@ -15,6 +15,10 @@ namespace Tuya.CreditCard.Api.Controllers
             _productService = productService;
         }
 
+        /// <summary>
+        /// Permite obtener el listado de productos disponibles para la tienda
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetProducts()
         {

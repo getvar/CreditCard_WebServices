@@ -17,12 +17,21 @@ namespace Tuya.CreditCard.Api.Controllers
             _userService = userService;
         }
 
+        /// <summary>
+        /// Permite registrar un nuevo usuario
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddUser(UserManage user)
         {
             return Ok(await ApiExecutionHelper.RunAsync(_userService.AddUser(user)));
         }
 
+        /// <summary>
+        /// Permite obtener los datos del usuario autorizado
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUser()
@@ -30,6 +39,11 @@ namespace Tuya.CreditCard.Api.Controllers
             return Ok(await ApiExecutionHelper.RunAsync(_userService.GetUser()));
         }
 
+        /// <summary>
+        /// Permite actualizar los datos del usuario autorizado
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut]
         public async Task<IActionResult> UpdateUser(UserEdit user)

@@ -16,6 +16,11 @@ namespace Tuya.CreditCard.Api.Controllers
             _authService = authService;
         }
 
+        /// <summary>
+        /// Permite el inicio de sesión a un usuario autorizado
+        /// </summary>
+        /// <param name="userData"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Login(UserLogin userData)
         {
